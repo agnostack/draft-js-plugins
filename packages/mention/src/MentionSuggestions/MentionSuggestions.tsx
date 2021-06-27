@@ -258,19 +258,34 @@ export class MentionSuggestions extends Component<MentionSuggestionsProps> {
       return;
     }
 
+    this.closeDropdown();
+
     if (this.props.onAddMention) {
       this.props.onAddMention(mention);
+    } else {
+      const newEditorState = addMention(
+        this.props.store.getEditorState!(),
+        mention,
+        this.props.mentionPrefix,
+        this.lastActiveTrigger || '',
+        this.props.entityMutability
+      );
+      this.props.store.setEditorState!(newEditorState);
     }
 
-    this.closeDropdown();
-    const newEditorState = addMention(
-      this.props.store.getEditorState!(),
-      mention,
-      this.props.mentionPrefix,
-      this.lastActiveTrigger || '',
-      this.props.entityMutability
-    );
-    this.props.store.setEditorState!(newEditorState);
+    // if (this.props.onAddMention) {
+    //   this.props.onAddMention(mention);
+    // }
+
+    // this.closeDropdown();
+    // const newEditorState = addMention(
+    //   this.props.store.getEditorState!(),
+    //   mention,
+    //   this.props.mentionPrefix,
+    //   this.lastActiveTrigger || '',
+    //   this.props.entityMutability
+    // );
+    // this.props.store.setEditorState!(newEditorState);
   };
 
   onMentionFocus = (index: number): void => {
